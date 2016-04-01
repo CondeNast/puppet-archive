@@ -1,3 +1,8 @@
+CondeNast fork note: This is a fork as of 5e457c5af67681bfbcbd3d6bd3b58d06cd71f80d of voxpupuli/puppet-archive. The fork's purpose is to allow us to have both camptocamp/puppet-archive and voxpupli/puppet-archive available to us, as Jenkins, for one, depends on the former, and consul, for another, depends on the latter.
+
+In order to not conflict with camptocamp, references to the keyword 'archive' in this module will be changed to voxpupuliarchive. To utilize this with puppet modules that depend on voxpupuli/puppet-archive, please fork those into /CondeNast, and then change references within those puppet modules.
+
+
 # Puppet Archive
 
 [![Puppet Forge](http://img.shields.io/puppetforge/v/puppet/archive.svg)](https://forge.puppetlabs.com/puppet/archive)
