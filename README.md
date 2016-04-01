@@ -2,6 +2,7 @@ CondeNast fork note: This is a fork as of 5e457c5af67681bfbcbd3d6bd3b58d06cd71f8
 
 In order to not conflict with camptocamp, references to the keyword 'archive' in this module will be changed to voxpupuliarchive. To utilize this with puppet modules that depend on voxpupuli/puppet-archive, please fork those into /CondeNast, and then change references within those puppet modules.
 
+As necessary, pulls from upstream will be done in case of necessary voxpupuli/puppet-archive module updates.
 
 # Puppet Archive
 
