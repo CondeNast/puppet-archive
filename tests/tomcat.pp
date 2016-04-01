@@ -23,7 +23,7 @@ file { $install_path:
   mode   => '0755',
 }
 
-archive { $filename:
+voxpupuliarchive { $filename:
   path          => "/tmp/${filename}",
   source        => 'http://www-eu.apache.org/dist/tomcat/tomcat-9/v9.0.0.M3/bin/apache-tomcat-9.0.0.M3.zip',
   checksum      => 'f2aaf16f5e421b97513c502c03c117fab6569076',

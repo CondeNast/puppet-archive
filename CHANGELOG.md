@@ -11,7 +11,7 @@
 * Add additional documentation
 * Simplify duplicate code in download/content methods
 * Pin rake to avoid rubocop/rake 11 incompatibility
-* Surface "checksum_verify" parameter in archive::nexus
+* Surface "checksum_verify" parameter in voxpupuliarchive::nexus
 * GH-48 S3 bucket support
 
 ##2016/3/2 - Releasing 0.4.8
@@ -44,10 +44,10 @@
 
 * Puppet-community release
 * Ignore files properly for functional release
-* Add authentication to archive::nexus
+* Add authentication to voxpupuliarchive::nexus
 * Create directory before transfering file
 * Refactor file download code
-* Create and use fact for archive_windir
+* Create and use fact for voxpupuliarchive_windir
 * Cleanup old testing code
 
 ##2015/11/25 - Releasing 0.4.3
@@ -72,7 +72,7 @@
 ##2015/4/23 - 0.3.0
 
 * Fix Puppet 4 compatability issues
-* Fix archive namevar to use path
+* Fix voxpupuliarchive namevar to use path
 
 ##2015/3/5 - 0.2.2
 

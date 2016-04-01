@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'archive' do
+describe 'voxpupuliarchive' do
   context 'RHEL' do
     let(:facts) { {
       :osfamily        => 'RedHat',
@@ -11,7 +11,7 @@ describe 'archive' do
     context 'default' do
       it { should_not contain_package('7zip') }
       it { should_not contain_file('/opt/awscli-bundle') }
-      it { should_not contain_archive('awscli-bundle.zip') }
+      it { should_not contain_voxpupuliarchive('awscli-bundle.zip') }
       it { should_not contain_exec('install_aws_cli') }
     end
 
@@ -21,7 +21,7 @@ describe 'archive' do
       } }
 
       it { should contain_file('/opt/awscli-bundle') }
-      it { should contain_archive('awscli-bundle.zip') }
+      it { should contain_voxpupuliarchive('awscli-bundle.zip') }
       it { should contain_exec('install_aws_cli') }
     end
   end
@@ -30,7 +30,7 @@ describe 'archive' do
     let(:default_facts) { {
       :osfamily        => 'Windows',
       :operatingsystem => 'Windows',
-      :archive_windir  => 'C:/staging',
+      :voxpupuliarchive_windir  => 'C:/staging',
     } }
 
     context 'default 7zip chcolatey package' do
@@ -44,7 +44,7 @@ describe 'archive' do
           :provider => 'chocolatey',
         )
       end
-      it { should_not contain_archive('awscli-bundle.zip') }
+      it { should_not contain_voxpupuliarchive('awscli-bundle.zip') }
     end
 
     context 'with 7zip msi package' do

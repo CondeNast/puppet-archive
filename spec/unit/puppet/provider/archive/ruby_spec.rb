@@ -1,11 +1,11 @@
-ruby_provider = Puppet::Type.type(:archive).provider(:ruby)
+ruby_provider = Puppet::Type.type(:voxpupuliarchive).provider(:ruby)
 
 RSpec.describe ruby_provider do
-  it_behaves_like 'an archive provider', ruby_provider
+  it_behaves_like 'an voxpupuliarchive provider', ruby_provider
 
   describe 'ruby provider' do
     let(:name)      { '/tmp/example.zip' }
-    let(:resource)  { Puppet::Type::Archive.new(resource_properties) }
+    let(:resource)  { Puppet::Type::voxpupuliArchive.new(resource_properties) }
     let(:provider)  { ruby_provider.new(resource) }
 
     let(:s3_download_options) do

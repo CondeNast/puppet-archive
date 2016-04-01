@@ -1,7 +1,7 @@
-# define: archive::nexus
+# define: voxpupuliarchive::nexus
 # ======================
 #
-# archive wrapper for downloading files from Nexus using REST API. Nexus API:
+# voxpupuliarchive wrapper for downloading files from Nexus using REST API. Nexus API:
 # https://repository.sonatype.org/nexus-restlet1x-plugin/default/docs/path__artifact_maven_content.html
 #
 # Parameters
@@ -10,7 +10,7 @@
 # Examples
 # --------
 #
-# archive::nexus { '/tmp/jtstand-ui-0.98.jar':
+# voxpupuliarchive::nexus { '/tmp/jtstand-ui-0.98.jar':
 #   url        => 'https://oss.sonatype.org',
 #   gav        => 'org.codehaus.jtstand:jtstand-ui:0.98',
 #   repository => 'codehaus-releases',
@@ -18,7 +18,7 @@
 #   extract    => false,
 # }
 #
-define archive::nexus (
+define voxpupuliarchive::nexus (
   $url,
   $gav,
   $repository,
@@ -44,7 +44,7 @@ define archive::nexus (
   $proxy_type      = undef,
 ) {
 
-  include ::archive::params
+  include ::voxpupuliarchive::params
 
   $artifact_info = split($gav, ':')
 
@@ -67,7 +67,7 @@ define archive::nexus (
   $artifact_url = assemble_nexus_url($url, delete_undef_values($query_params))
   $checksum_url = regsubst($artifact_url, "p=${packaging}", "p=${packaging}.${checksum_type}")
 
-  archive { $name:
+  voxpupuliarchive { $name:
     ensure          => $ensure,
     source          => $artifact_url,
     username        => $username,
@@ -87,15 +87,15 @@ define archive::nexus (
     proxy_type      => $proxy_type,
   }
 
-  $file_owner = pick($owner, $archive::params::owner)
-  $file_group = pick($group, $archive::params::group)
-  $file_mode  = pick($mode, $archive::params::mode)
+  $file_owner = pick($owner, $voxpupuliarchive::params::owner)
+  $file_group = pick($group, $voxpupuliarchive::params::group)
+  $file_mode  = pick($mode, $voxpupuliarchive::params::mode)
 
   file { $name:
     owner   => $file_owner,
     group   => $file_group,
     mode    => $file_mode,
-    require => Archive[$name],
+    require => voxpupuliArchive[$name],
   }
 
 }

@@ -1,4 +1,4 @@
-Puppet::Type.type(:archive).provide(:wget, :parent => :ruby) do
+Puppet::Type.type(:voxpupuliarchive).provide(:wget, :parent => :ruby) do
   commands :wget => 'wget'
 
   def download(filepath)

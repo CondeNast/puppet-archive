@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe 'archive::staging' do
+describe 'voxpupuliarchive::staging' do
   context 'RHEL Puppet opensource' do
     let(:facts) { { :osfamily => 'RedHat', :puppetversion => '3.7.3' } }
 
-    it { should contain_class 'archive' }
+    it { should contain_class 'voxpupuliarchive' }
     it do
       should contain_file('/opt/staging').with(
         :owner => '0',
@@ -24,7 +24,7 @@ describe 'archive::staging' do
       :mode => '0755',
     } }
 
-    it { should contain_class 'archive' }
+    it { should contain_class 'voxpupuliarchive' }
     it do
       should contain_file('/tmp/staging').with(
         :owner => 'puppet',
@@ -38,10 +38,10 @@ describe 'archive::staging' do
     let(:facts) { {
       :osfamily => 'Windows',
       :puppetversion => '3.4.3 (Puppet Enterprise 3.2.3)',
-      :archive_windir => 'C:/Windows/Temp/staging'
+      :voxpupuliarchive_windir => 'C:/Windows/Temp/staging'
     } }
 
-    it { should contain_class 'archive' }
+    it { should contain_class 'voxpupuliarchive' }
     it do
       should contain_file('C:/Windows/Temp/staging').with(
         :owner => 'S-1-5-32-544',

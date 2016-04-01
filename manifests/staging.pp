@@ -1,15 +1,15 @@
-# Class: archive::staging
+# Class: voxpupuliarchive::staging
 # =======================
 #
 # backwards compatibility class for staging module.
 #
-class archive::staging (
-  $path  = $archive::params::path,
-  $owner = $archive::params::owner,
-  $group = $archive::params::group,
-  $mode  = $archive::params::mode,
-) inherits archive::params {
-  include '::archive'
+class voxpupuliarchive::staging (
+  $path  = $voxpupuliarchive::params::path,
+  $owner = $voxpupuliarchive::params::owner,
+  $group = $voxpupuliarchive::params::group,
+  $mode  = $voxpupuliarchive::params::mode,
+) inherits voxpupuliarchive::params {
+  include '::voxpupuliarchive'
 
   if !defined(File[$path]) {
     file { $path:

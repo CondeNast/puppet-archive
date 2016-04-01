@@ -1,10 +1,10 @@
-archive { '/tmp/bernie_301':
+voxpupuliarchive { '/tmp/bernie_301':
   ensure   => present,
   source   => 'https://berniesanders.com/for/president',
   provider => ruby,
 }
 
-archive { '/tmp/auth':
+voxpupuliarchive { '/tmp/auth':
   ensure   => present,
   source   => 'http://test.webdav.org/auth-basic/',
   username => 'user1',

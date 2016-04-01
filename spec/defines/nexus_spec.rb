@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe 'archive::nexus' do
+describe 'voxpupuliarchive::nexus' do
   let(:facts) { { :osfamily => 'RedHat', :puppetversion => '3.7.3' } }
 
-  context 'nexus archive with defaults' do
+  context 'nexus voxpupuliarchive with defaults' do
     let(:title) { '/tmp/hawtio.war' }
 
     let(:params) { {
@@ -14,21 +14,21 @@ describe 'archive::nexus' do
     } }
 
     it do
-      should contain_archive('/tmp/hawtio.war').with(
+      should contain_voxpupuliarchive('/tmp/hawtio.war').with(
         :source => 'https://oss.sonatype.org/service/local/artifact/maven/content?g=io.hawt&a=hawtio-web&v=1.4.36&r=releases&p=war',
         :checksum_url => 'https://oss.sonatype.org/service/local/artifact/maven/content?g=io.hawt&a=hawtio-web&v=1.4.36&r=releases&p=war.md5'
       )
     end
 
     it do
-      should contain_file('/tmp/hawtio.war').that_requires('Archive[/tmp/hawtio.war]').with(
+      should contain_file('/tmp/hawtio.war').that_requires('voxpupuliArchive[/tmp/hawtio.war]').with(
         :owner => '0',
         :group => '0',
       )
     end
   end
 
-  context 'nexus archive with overwritten parameters' do
+  context 'nexus voxpupuliarchive with overwritten parameters' do
     let(:title) { '/tmp/artifact.war' }
 
     let(:params) { {
@@ -45,7 +45,7 @@ describe 'archive::nexus' do
     } }
 
     it do
-      should contain_archive('/tmp/artifact.war').with(
+      should contain_voxpupuliarchive('/tmp/artifact.war').with(
         'user' => 'tom',
         'group' => 'worker',
         'extract' => true,
@@ -56,14 +56,14 @@ describe 'archive::nexus' do
     end
 
     it do
-      should contain_file('/tmp/artifact.war').that_requires('Archive[/tmp/artifact.war]').with(
+      should contain_file('/tmp/artifact.war').that_requires('voxpupuliArchive[/tmp/artifact.war]').with(
         'owner' => 'tom',
         'group' => 'worker'
       )
     end
   end
 
-  context 'nexus archive with checksum_verify => false' do
+  context 'nexus voxpupuliarchive with checksum_verify => false' do
     let :title do
       '/tmp/artifact.war'
     end
@@ -85,7 +85,7 @@ describe 'archive::nexus' do
     end
 
     it do
-      should contain_archive('/tmp/artifact.war').with(
+      should contain_voxpupuliarchive('/tmp/artifact.war').with(
         'user' => 'tom',
         'group' => 'worker',
         'extract' => true,
@@ -97,7 +97,7 @@ describe 'archive::nexus' do
     end
 
     it do
-      should contain_file('/tmp/artifact.war').that_requires('Archive[/tmp/artifact.war]').with(
+      should contain_file('/tmp/artifact.war').that_requires('voxpupuliArchive[/tmp/artifact.war]').with(
         'owner' => 'tom',
         'group' => 'worker'
       )

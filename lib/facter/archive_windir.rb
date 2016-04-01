@@ -1,4 +1,4 @@
-Facter.add(:archive_windir) do
+Facter.add(:voxpupuliarchive_windir) do
   confine :osfamily => :windows
   setcode do
     program_data = `echo %SYSTEMDRIVE%\\ProgramData`.chomp

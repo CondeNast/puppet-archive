@@ -1,7 +1,7 @@
-# Class: archive
+# Class: voxpupuliarchive
 # ==============
 #
-# Manages archive modules dependencies.
+# Manages voxpupuliarchive modules dependencies.
 #
 # Parameters
 # ----------
@@ -15,19 +15,19 @@
 # Examples
 # --------
 #
-# class { 'archive':
+# class { 'voxpupuliarchive':
 #   seven_zip_name     => '7-Zip 9.20 (x64 edition)',
 #   seven_zip_source   => 'C:/Windows/Temp/7z920-x64.msi',
 #   seven_zip_provider => 'windows',
 # }
 #
-class archive (
-  $seven_zip_name     = $archive::params::seven_zip_name,
-  $seven_zip_provider = $archive::params::seven_zip_provider,
+class voxpupuliarchive (
+  $seven_zip_name     = $voxpupuliarchive::params::seven_zip_name,
+  $seven_zip_provider = $voxpupuliarchive::params::seven_zip_provider,
   $seven_zip_source   = undef,
   $gem_provider       = undef,
   $aws_cli_install    = false,
-) inherits archive::params {
+) inherits voxpupuliarchive::params {
 
   if $::osfamily == 'Windows' and !($seven_zip_provider in ['', undef]) {
     package { '7zip':
@@ -48,7 +48,7 @@ class archive (
         ensure => 'directory',
       }
 
-      archive { 'awscli-bundle.zip':
+      voxpupuliarchive { 'awscli-bundle.zip':
         ensure       => present,
         path         =>  '/opt/awscli-bundle/awscli-bundle.zip',
         source       => 'https://s3.amazonaws.com/aws-cli/awscli-bundle.zip',
@@ -61,7 +61,7 @@ class archive (
       exec { 'install_aws_cli':
         command     => '/opt/awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws',
         refreshonly => true,
-        subscribe   => Archive['awscli-bundle.zip'],
+        subscribe   => voxpupuliArchive['awscli-bundle.zip'],
       }
     }
   }

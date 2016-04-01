@@ -1,25 +1,25 @@
 begin
-  require 'puppet_x/bodeco/archive'
+  require 'puppet_x/bodeco/voxpupuliarchive'
   require 'puppet_x/bodeco/util'
 rescue LoadError
   require 'pathname' # WORK_AROUND #14073 and #7788
-  archive = Puppet::Module.find('archive', Puppet[:environment].to_s)
-  raise(LoadError, "Unable to find archive module in modulepath #{Puppet[:basemodulepath] || Puppet[:modulepath]}") unless archive
-  require File.join archive.path, 'lib/puppet_x/bodeco/archive'
-  require File.join archive.path, 'lib/puppet_x/bodeco/util'
+  voxpupuliarchive = Puppet::Module.find('voxpupuliarchive', Puppet[:environment].to_s)
+  raise(LoadError, "Unable to find voxpupuliarchive module in modulepath #{Puppet[:basemodulepath] || Puppet[:modulepath]}") unless voxpupuliarchive
+  require File.join voxpupuliarchive.path, 'lib/puppet_x/bodeco/voxpupuliarchive'
+  require File.join voxpupuliarchive.path, 'lib/puppet_x/bodeco/util'
 end
 
 require 'securerandom'
 require 'tempfile'
 
-Puppet::Type.type(:archive).provide(:ruby) do
+Puppet::Type.type(:voxpupuliarchive).provide(:ruby) do
   optional_commands :aws => 'aws'
   defaultfor :feature => :microsoft_windows
-  attr_reader :archive_checksum
+  attr_reader :voxpupuliarchive_checksum
 
   def exists?
     if extracted?
-      if File.exist? archive_filepath
+      if File.exist? voxpupuliarchive_filepath
         checksum?
       else
         cleanup
@@ -31,16 +31,16 @@ Puppet::Type.type(:archive).provide(:ruby) do
   end
 
   def create
-    transfer_download(archive_filepath) unless checksum?
+    transfer_download(voxpupuliarchive_filepath) unless checksum?
     extract
     cleanup
   end
 
   def destroy
-    FileUtils.rm_f(archive_filepath) if File.exist?(archive_filepath)
+    FileUtils.rm_f(voxpupuliarchive_filepath) if File.exist?(voxpupuliarchive_filepath)
   end
 
-  def archive_filepath
+  def voxpupuliarchive_filepath
     resource[:path]
   end
 
@@ -54,7 +54,7 @@ Puppet::Type.type(:archive).provide(:ruby) do
 
   def creates
     if resource[:extract] == :true
-      extracted? ? resource[:creates] : 'archive not extracted'
+      extracted? ? resource[:creates] : 'voxpupuliarchive not extracted'
     else
       resource[:creates]
     end
@@ -79,30 +79,30 @@ Puppet::Type.type(:archive).provide(:ruby) do
     end
   end
 
-  # Private: See if local archive checksum matches.
+  # Private: See if local voxpupuliarchive checksum matches.
   # returns boolean
   def checksum?(store_checksum = true)
-    archive_exist = File.exist? archive_filepath
-    if archive_exist && resource[:checksum_type] != :none
-      archive = PuppetX::Bodeco::Archive.new(archive_filepath)
-      archive_checksum = archive.checksum(resource[:checksum_type])
-      @archive_checksum = archive_checksum if store_checksum
-      checksum == archive_checksum
+    voxpupuliarchive_exist = File.exist? voxpupuliarchive_filepath
+    if voxpupuliarchive_exist && resource[:checksum_type] != :none
+      voxpupuliarchive = PuppetX::Bodeco::voxpupuliArchive.new(voxpupuliarchive_filepath)
+      voxpupuliarchive_checksum = voxpupuliarchive.checksum(resource[:checksum_type])
+      @voxpupuliarchive_checksum = voxpupuliarchive_checksum if store_checksum
+      checksum == voxpupuliarchive_checksum
     else
-      archive_exist
+      voxpupuliarchive_exist
     end
   end
 
   def cleanup
     return unless extracted? && resource[:cleanup] == :true
-    Puppet.debug("Cleanup archive #{archive_filepath}")
+    Puppet.debug("Cleanup voxpupuliarchive #{voxpupuliarchive_filepath}")
     destroy
   end
 
   def extract
     return unless resource[:extract] == :true
-    raise(ArgumentError, 'missing archive extract_path') unless resource[:extract_path]
-    PuppetX::Bodeco::Archive.new(archive_filepath).extract(
+    raise(ArgumentError, 'missing voxpupuliarchive extract_path') unless resource[:extract_path]
+    PuppetX::Bodeco::voxpupuliArchive.new(voxpupuliarchive_filepath).extract(
       resource[:extract_path],
       :custom_command => resource[:extract_command],
       :options => resource[:extract_flags],
@@ -115,7 +115,7 @@ Puppet::Type.type(:archive).provide(:ruby) do
     resource[:creates] && File.exist?(resource[:creates])
   end
 
-  def transfer_download(archive_filepath)
+  def transfer_download(voxpupuliarchive_filepath)
     tempfile = Tempfile.new(tempfile_name)
     temppath = tempfile.path
     tempfile.close!
@@ -135,12 +135,12 @@ Puppet::Type.type(:archive).provide(:ruby) do
 
     # conditionally verify checksum:
     if resource[:checksum_verify] == :true && resource[:checksum_type] != :none
-      archive = PuppetX::Bodeco::Archive.new(temppath)
-      raise(Puppet::Error, 'Download file checksum mismatch') unless archive.checksum(resource[:checksum_type]) == checksum
+      voxpupuliarchive = PuppetX::Bodeco::voxpupuliArchive.new(temppath)
+      raise(Puppet::Error, 'Download file checksum mismatch') unless voxpupuliarchive.checksum(resource[:checksum_type]) == checksum
     end
 
-    FileUtils.mkdir_p(File.dirname(archive_filepath))
-    FileUtils.mv(temppath, archive_filepath)
+    FileUtils.mkdir_p(File.dirname(voxpupuliarchive_filepath))
+    FileUtils.mv(temppath, voxpupuliarchive_filepath)
   end
 
   def download(filepath)

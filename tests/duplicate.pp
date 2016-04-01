@@ -9,7 +9,7 @@ file { ['/tmp/result1', '/tmp/result2']:
   ensure => directory,
 }
 
-archive { '/tmp/result1/result':
+voxpupuliarchive { '/tmp/result1/result':
   ensure  => present,
   name    => '/tmp/result1/result',
   source  => "file://${source_file}",
@@ -17,7 +17,7 @@ archive { '/tmp/result1/result':
   require => File[$source_file],
 }
 
-archive { '/tmp/result2/result':
+voxpupuliarchive { '/tmp/result2/result':
   ensure  => present,
   name    => '/tmp/result2/result',
   source  => "file://${source_file}",

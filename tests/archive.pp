@@ -1,6 +1,6 @@
-include '::archive'
+include '::voxpupuliarchive'
 
-archive { '/tmp/jta-1.1.jar':
+voxpupuliarchive { '/tmp/jta-1.1.jar':
   ensure        => present,
   extract       => true,
   extract_path  => '/tmp',

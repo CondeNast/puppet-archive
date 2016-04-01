@@ -1,14 +1,14 @@
-include ::archive
+include ::voxpupuliarchive
 
-archive { '/tmp/test.zip':
+voxpupuliarchive { '/tmp/test.zip':
   source => 'file:///vagrant/files/test.zip',
 }
 
-archive { '/tmp/test2.zip':
+voxpupuliarchive { '/tmp/test2.zip':
   source => '/vagrant/files/test.zip',
 }
 
 # NOTE: expected to fail
-archive { '/tmp/test3.zip':
+voxpupuliarchive { '/tmp/test3.zip':
   source => '/vagrant/files/invalid.zip',
 }

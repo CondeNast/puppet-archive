@@ -1,4 +1,4 @@
-Puppet::Type.type(:archive).provide(:curl, :parent => :ruby) do
+Puppet::Type.type(:voxpupuliarchive).provide(:curl, :parent => :ruby) do
   commands :curl => 'curl'
   defaultfor :feature => :posix
 

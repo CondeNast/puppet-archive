@@ -1,6 +1,6 @@
-include '::archive'
+include '::voxpupuliarchive'
 
-archive { '/tmp/hawtio-web-1.4.36.jar':
+voxpupuliarchive { '/tmp/hawtio-web-1.4.36.jar':
   ensure        => present,
   extract       => false,
   extract_path  => '/tmp',

@@ -2,11 +2,11 @@ require 'pathname'
 require 'uri'
 require 'puppet/util'
 
-Puppet::Type.newtype(:archive) do
-  @doc = 'Manage archive file download, extraction, and cleanup.'
+Puppet::Type.newtype(:voxpupuliarchive) do
+  @doc = 'Manage voxpupuliarchive file download, extraction, and cleanup.'
 
   ensurable do
-    desc 'whether archive file should be present/absent (default: present)'
+    desc 'whether voxpupuliarchive file should be present/absent (default: present)'
 
     newvalue(:present) do
       provider.create
@@ -20,12 +20,12 @@ Puppet::Type.newtype(:archive) do
 
     # The following changes allows us to notify if the resource is being replaced
     def is_to_s(value) # rubocop:disable Style/PredicateName
-      return "(#{resource[:checksum_type]})#{provider.archive_checksum}" if provider.archive_checksum
+      return "(#{resource[:checksum_type]})#{provider.voxpupuliarchive_checksum}" if provider.voxpupuliarchive_checksum
       super
     end
 
     def should_to_s(value)
-      return "(#{resource[:checksum_type]})#{resource[:checksum]}" if provider.archive_checksum
+      return "(#{resource[:checksum_type]})#{resource[:checksum]}" if provider.voxpupuliarchive_checksum
       super
     end
 
@@ -34,13 +34,13 @@ Puppet::Type.newtype(:archive) do
         extract = resource[:extract] == :true ? "and extracted in #{resource[:extract_path]}" : ''
         cleanup = resource[:cleanup] == :true ? 'with cleanup' : 'without cleanup'
 
-        if provider.archive_checksum
-          "replace archive: #{provider.archive_filepath} from #{is_to_s(currentvalue)} to #{should_to_s(newvalue)}"
+        if provider.voxpupuliarchive_checksum
+          "replace voxpupuliarchive: #{provider.voxpupuliarchive_filepath} from #{is_to_s(currentvalue)} to #{should_to_s(newvalue)}"
         else
-          "download archive from #{resource[:source]} to #{provider.archive_filepath} #{extract} #{cleanup}"
+          "download voxpupuliarchive from #{resource[:source]} to #{provider.voxpupuliarchive_filepath} #{extract} #{cleanup}"
         end
       elsif newvalue == :absent
-        "remove archive: #{provider.archive_filepath} "
+        "remove voxpupuliarchive: #{provider.voxpupuliarchive_filepath} "
       else
         super
       end
@@ -50,29 +50,29 @@ Puppet::Type.newtype(:archive) do
   end
 
   newparam(:path, :namevar => true) do
-    desc 'namevar, archive file fully qualified file path.'
+    desc 'namevar, voxpupuliarchive file fully qualified file path.'
     validate do |value|
       unless Puppet::Util.absolute_path? value
-        raise ArgumentError, "archive path must be absolute: #{value}"
+        raise ArgumentError, "voxpupuliarchive path must be absolute: #{value}"
       end
     end
   end
 
   newparam(:filename) do
-    desc 'archive file name (derived from path).'
+    desc 'voxpupuliarchive file name (derived from path).'
   end
 
   newparam(:extract) do
-    desc 'whether archive will be extracted after download (true|false).'
+    desc 'whether voxpupuliarchive will be extracted after download (true|false).'
     newvalues(:true, :false)
     defaultto(:false)
   end
 
   newparam(:extract_path) do
-    desc 'target folder path to extract archive.'
+    desc 'target folder path to extract voxpupuliarchive.'
     validate do |value|
       unless Puppet::Util.absolute_path? value
-        raise ArgumentError, "archive extract_path must be absolute: #{value}"
+        raise ArgumentError, "voxpupuliarchive extract_path must be absolute: #{value}"
       end
     end
   end
@@ -87,7 +87,7 @@ Puppet::Type.newtype(:archive) do
   end
 
   newproperty(:creates) do
-    desc 'if file/directory exists, will not download/extract archive.'
+    desc 'if file/directory exists, will not download/extract voxpupuliarchive.'
 
     def should_to_s(value)
       "extracting in #{resource[:extract_path]} to create #{value}"
@@ -95,13 +95,13 @@ Puppet::Type.newtype(:archive) do
   end
 
   newparam(:cleanup) do
-    desc 'whether archive file will be removed after extraction (true|false).'
+    desc 'whether voxpupuliarchive file will be removed after extraction (true|false).'
     newvalues(:true, :false)
     defaultto(:true)
   end
 
   newparam(:source) do
-    desc 'archive file source, supports http|https|ftp|file|s3 uri.'
+    desc 'voxpupuliarchive file source, supports http|https|ftp|file|s3 uri.'
     validate do |value|
       unless value =~ URI.regexp(%w(http https ftp file s3)) || Puppet::Util.absolute_path?(value)
         raise ArgumentError, "invalid source url: #{value}"
@@ -110,20 +110,20 @@ Puppet::Type.newtype(:archive) do
   end
 
   newparam(:cookie) do
-    desc 'archive file download cookie.'
+    desc 'voxpupuliarchive file download cookie.'
   end
 
   newparam(:checksum) do
-    desc 'archive file checksum (match checksum_type).'
+    desc 'voxpupuliarchive file checksum (match checksum_type).'
     newvalues(/\b[0-9a-f]{5,128}\b/)
   end
 
   newparam(:checksum_url) do
-    desc 'archive file checksum source (instead of specify checksum)'
+    desc 'voxpupuliarchive file checksum source (instead of specify checksum)'
   end
 
   newparam(:checksum_type) do
-    desc 'archive file checksum type (none|md5|sha1|sha2|sh256|sha384|sha512).'
+    desc 'voxpupuliarchive file checksum type (none|md5|sha1|sha2|sh256|sha384|sha512).'
     newvalues(:none, :md5, :sha1, :sha2, :sha256, :sha384, :sha512)
     defaultto(:none)
   end
@@ -143,11 +143,11 @@ Puppet::Type.newtype(:archive) do
   end
 
   newparam(:user) do
-    desc 'extract command user (using this option will configure the archive file permission to 0644 so the user can read the file).'
+    desc 'extract command user (using this option will configure the voxpupuliarchive file permission to 0644 so the user can read the file).'
   end
 
   newparam(:group) do
-    desc 'extract command group (using this option will configure the archive file permisison to 0644 so the user can read the file).'
+    desc 'extract command group (using this option will configure the voxpupuliarchive file permisison to 0644 so the user can read the file).'
   end
 
   newparam(:proxy_type) do

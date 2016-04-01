@@ -1,9 +1,9 @@
 require 'spec_helper'
 require 'puppet'
 
-describe Puppet::Type.type(:archive) do
+describe Puppet::Type.type(:voxpupuliarchive) do
   let(:resource) do
-    Puppet::Type.type(:archive).new(
+    Puppet::Type.type(:voxpupuliarchive).new(
       :path   => '/tmp/example.zip',
       :source => 'http://home.lan/example.zip'
     )
@@ -23,7 +23,7 @@ describe Puppet::Type.type(:archive) do
   it 'verify resource[:path] is absolute filepath' do
     expect do
       resource[:path] = 'relative/file'
-    end.to raise_error(Puppet::Error, /archive path must be absolute: /)
+    end.to raise_error(Puppet::Error, /voxpupuliarchive path must be absolute: /)
   end
 
   describe 'on posix', :if => Puppet.features.posix? do
@@ -94,16 +94,16 @@ describe Puppet::Type.type(:archive) do
       @catalog.add_resource @file_tmp
     end
 
-    it 'should require archive parent' do
-      example_archive = described_class.new(
+    it 'should require voxpupuliarchive parent' do
+      example_voxpupuliarchive = described_class.new(
         :path   => '/tmp/example.zip',
         :source => 'http://home.lan/example.zip'
       )
-      @catalog.add_resource example_archive
+      @catalog.add_resource example_voxpupuliarchive
 
-      req = example_archive.autorequire
+      req = example_voxpupuliarchive.autorequire
       expect(req.size).to eql 1
-      expect(req[0].target).to eql example_archive
+      expect(req[0].target).to eql example_voxpupuliarchive
       expect(req[0].source).to eql @file_tmp
     end
   end
