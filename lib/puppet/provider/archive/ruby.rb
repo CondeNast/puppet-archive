@@ -1,11 +1,11 @@
 begin
-  require 'puppet_x/bodeco/voxpupuliarchive'
+  require 'puppet_x/bodeco/archive'
   require 'puppet_x/bodeco/util'
 rescue LoadError
   require 'pathname' # WORK_AROUND #14073 and #7788
   voxpupuliarchive = Puppet::Module.find('voxpupuliarchive', Puppet[:environment].to_s)
   raise(LoadError, "Unable to find voxpupuliarchive module in modulepath #{Puppet[:basemodulepath] || Puppet[:modulepath]}") unless voxpupuliarchive
-  require File.join voxpupuliarchive.path, 'lib/puppet_x/bodeco/voxpupuliarchive'
+  require File.join voxpupuliarchive.path, 'lib/puppet_x/bodeco/archive'
   require File.join voxpupuliarchive.path, 'lib/puppet_x/bodeco/util'
 end
 
@@ -84,7 +84,7 @@ Puppet::Type.type(:voxpupuliarchive).provide(:ruby) do
   def checksum?(store_checksum = true)
     voxpupuliarchive_exist = File.exist? voxpupuliarchive_filepath
     if voxpupuliarchive_exist && resource[:checksum_type] != :none
-      voxpupuliarchive = PuppetX::Bodeco::voxpupuliArchive.new(voxpupuliarchive_filepath)
+      voxpupuliarchive = PuppetX::Bodeco::Archive.new(voxpupuliarchive_filepath)
       voxpupuliarchive_checksum = voxpupuliarchive.checksum(resource[:checksum_type])
       @voxpupuliarchive_checksum = voxpupuliarchive_checksum if store_checksum
       checksum == voxpupuliarchive_checksum
@@ -102,7 +102,7 @@ Puppet::Type.type(:voxpupuliarchive).provide(:ruby) do
   def extract
     return unless resource[:extract] == :true
     raise(ArgumentError, 'missing voxpupuliarchive extract_path') unless resource[:extract_path]
-    PuppetX::Bodeco::voxpupuliArchive.new(voxpupuliarchive_filepath).extract(
+    PuppetX::Bodeco::Archive.new(voxpupuliarchive_filepath).extract(
       resource[:extract_path],
       :custom_command => resource[:extract_command],
       :options => resource[:extract_flags],
@@ -135,7 +135,7 @@ Puppet::Type.type(:voxpupuliarchive).provide(:ruby) do
 
     # conditionally verify checksum:
     if resource[:checksum_verify] == :true && resource[:checksum_type] != :none
-      voxpupuliarchive = PuppetX::Bodeco::voxpupuliArchive.new(temppath)
+      voxpupuliarchive = PuppetX::Bodeco::Archive.new(temppath)
       raise(Puppet::Error, 'Download file checksum mismatch') unless voxpupuliarchive.checksum(resource[:checksum_type]) == checksum
     end
 

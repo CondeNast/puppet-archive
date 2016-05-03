@@ -3,7 +3,7 @@ require 'puppet/util/execution'
 
 module PuppetX
   module Bodeco
-    class voxpupuliArchive
+    class Archive
       def initialize(file)
         @file = file
       end
